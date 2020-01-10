@@ -1,6 +1,12 @@
 <?php // Do not put any HTML above this line
 session_start();
 
+// If any error recorded in session, show once, then reset.
+if ( isset($_SESSION['error']) ) {
+  echo('<p style="color: red;">'.htmlentities($_SESSION['error'])."</p>\n");
+  unset($_SESSION['error']);
+}
+
 // if logged in, then redirect to view.php
 if (isset($_SESSION['name'])) {
   header("Location: view.php");
@@ -21,10 +27,14 @@ $failure = false;  // If we have no POST data
 // Check to see if we have some POST data, if we do process it
 if ( isset($_POST['who']) && isset($_POST['pass']) ) {
   if (strpos($_POST['who'], '@') === false) {
-    $failure = "Email must have an at sign (@).";
+    $_SESSION['error'] = "Email must have an at sign (@).";
+    header("Location: login.php");
+    return;
   } else {
     if ( strlen($_POST['who']) < 1 || strlen($_POST['pass']) < 1 ) {
-        $failure = "User name and password are required";
+        $_SESSION['error'] = "User name and password are required";
+        header("Location: login.php");
+        return;
     } else {
         $check = hash('md5', $salt.$_POST['pass']);
         if ( $check == $stored_hash ) {
@@ -35,7 +45,9 @@ if ( isset($_POST['who']) && isset($_POST['pass']) ) {
             return;
         } else {
           error_log("Login fail ".$_POST['who']." $check");
-          $failure = "Incorrect password";
+          $_SESSION['error'] = "Incorrect password";
+          header("Location: login.php");
+          return;
         }
     }
   }

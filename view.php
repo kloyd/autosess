@@ -9,13 +9,23 @@ if ( isset($_SESSION['name'])) {
 
 require_once "pdo.php";
 
-// Demand a GET parameter
-
 // If the user requested logout go back to index.php
 if ( isset($_POST['logout']) ) {
   session_destroy();
-    header('Location: index.php');
-    return;
+  header('Location: index.php');
+  return;
+}
+
+// If any error recorded in session, show once, then reset.
+if ( isset($_SESSION['success']) ) {
+  echo('<p style="color: green;">'.htmlentities($_SESSION['success'])."</p>\n");
+  unset($_SESSION['success']);
+}
+
+
+if (isset($_POST['add']) ) {
+  header('Location: add.php');
+  return;
 }
 
 if ( isset($_POST['delete']) && isset($_POST['auto_id']) ) {
@@ -32,16 +42,10 @@ $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <head>
 <title>Kelly Loyd Automobile Tracker (f418185d)</title>
 </head><body>
-  <?php echo("<h1>Tracking Autos for $name</h1>\n"); ?>
-<p>Add A New Auto</p>
+<?php echo("<h1>Tracking Autos for $name</h1>\n"); ?>
 <form method="post">
-<p>Make:
-<input type="text" name="make" size="40"></p>
-<p>Year:
-<input type="text" name="year"></p>
-<p>Mileage:
-<input type="text" name="mileage"></p>
-<p><input type="submit" value="Add New" name="addnew" /></p>
+<input type="submit" name="add" value="Add New">
+<input type="submit" name="logout" value="Logout">
 </form>
 <table border="1">
 <?php
@@ -61,7 +65,5 @@ foreach ( $rows as $row ) {
 }
 ?>
 </table>
-<form method="post">
-<input type="submit" name="logout" value="Logout">
-</form>
+
 </body>
