@@ -42,7 +42,7 @@ if ( isset($_POST['addnew']) && isset($_POST['make']) && isset($_POST['year']) &
           ':mileage' => $_POST['mileage']));
           // now redirect to view.php
           $make = htmlentities($_POST['make']);
-          $_SESSION['success'] = "New Auto added (" . $make . ")";
+          $_SESSION['success'] = "New Auto added";
           header('Location: view.php');
           return;
       } else {
@@ -76,7 +76,7 @@ if ( isset($_POST['addnew']) && isset($_POST['make']) && isset($_POST['year']) &
     <input type="submit" value="Cancel" name="cancel" />
   </p>
 </form>
-
+<a href="logout.php">Logout</a>
 <form method="post">
 <input type="submit" name="logout" value="Logout">
 </form>
