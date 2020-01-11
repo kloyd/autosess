@@ -43,11 +43,9 @@ $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <title>Kelly Loyd Automobile Tracker (f418185d)</title>
 </head><body>
 <?php echo("<h1>Tracking Autos for $name</h1>\n"); ?>
-<a href="add.php">Add New</a><a href="logout.php">Logout</a>
-<form method="post">
-<input type="submit" name="add" value="Add New">
-<input type="submit" name="logout" value="Logout">
-</form>
+<a href="add.php">Add New</a>
+<a href="logout.php">Logout</a>
+
 <table border="1">
 <?php
 foreach ( $rows as $row ) {

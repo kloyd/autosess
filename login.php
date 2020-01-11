@@ -27,14 +27,18 @@ $failure = false;  // If we have no POST data
 // Check to see if we have some POST data, if we do process it
 if ( isset($_POST['email']) && isset($_POST['pass']) ) {
   if (strpos($_POST['email'], '@') === false) {
-    $_SESSION['error'] = "Email must have an at sign (@).";
+    $err = "Email must have an at sign (@).";
+    $_SESSION['error'] = $err;
+    error_log("Login fail ".$_POST['email']." $err");
     header("Location: login.php");
     return;
   } else {
     if ( strlen($_POST['email']) < 1 || strlen($_POST['pass']) < 1 ) {
-        $_SESSION['error'] = "User name and password are required";
-        header("Location: login.php");
-        return;
+      $err = "User name and password are required.";
+      $_SESSION['error'] = $err;
+      error_log("Login fail ".$_POST['email']." $err");
+      header("Location: login.php");
+      return;
     } else {
         $check = hash('md5', $salt.$_POST['pass']);
         if ( $check == $stored_hash ) {

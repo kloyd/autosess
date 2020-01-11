@@ -77,7 +77,5 @@ if ( isset($_POST['addnew']) && isset($_POST['make']) && isset($_POST['year']) &
   </p>
 </form>
 <a href="logout.php">Logout</a>
-<form method="post">
-<input type="submit" name="logout" value="Logout">
-</form>
+
 </body>
